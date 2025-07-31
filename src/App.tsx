@@ -11,6 +11,7 @@ function App() {
     control,
     formState: { errors },
   } = useForm<FormData>({
+    // @ts-expect-error ignore
     resolver: yupResolver(buggedSchema),
     mode: "onChange",
   });
@@ -20,6 +21,7 @@ function App() {
     control: control2,
     formState: { errors: errors2 },
   } = useForm<FormData>({
+    // @ts-expect-error ignore
     resolver: yupResolver(workingSchema),
     mode: "onChange",
   });
@@ -42,7 +44,7 @@ function App() {
     name: "files",
   });
 
-  const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -61,7 +63,7 @@ function App() {
         <Input
           type="file"
           inputProps={{ accept: "*" }}
-          onChange={onFileUpload}
+          onChange={handleFileUpload}
         />
       </Stack>
 
@@ -72,6 +74,7 @@ function App() {
           title="bugged Schema - showing error early"
           registerIndex={index}
           error={!!errors.files?.[index]?.type}
+          // @ts-expect-error ignore
           errorMessage={errors.files?.[index]?.type?.message}
           onDelete={() => removeFile(index)}
         />
@@ -84,6 +87,7 @@ function App() {
           title="working Schema - not showing error if user not interacted"
           registerIndex={index}
           error={!!errors2.files?.[index]?.type}
+          // @ts-expect-error ignore
           errorMessage={errors2.files?.[index]?.type?.message}
           onDelete={() => removeFile2(index)}
         />
